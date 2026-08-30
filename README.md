@@ -1,5 +1,9 @@
 # Tabbed Card V2
 
+[![HACS Custom](https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge)](https://github.com/hacs/integration)
+
+[![Open your Home Assistant instance and add this repository to HACS.](https://my.home-assistant.io/badges/hacs_repository.svg)](https://my.home-assistant.io/redirect/hacs_repository/?owner=rockbaer2007&repository=tabbed-card-v2&category=plugin)
+
 Tabbed Card V2 is a Home Assistant Lovelace card that renders normal Home Assistant cards inside tabs.
 
 ## HACS
