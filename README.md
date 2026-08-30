@@ -47,4 +47,4 @@ tabs:
         - sensor.living_room_humidity
 ```
 
-For the full visual editor, install the Tabbed Card V2 app package.
+For the full visual editor, use the standalone [Tabbed Card V2 Editor](https://rockbaer2007.github.io/tabbed-card-v2-editor/).

@@ -316,22 +316,21 @@ class TabbedCardV2Editor extends HTMLElement {
       <div class="panel">
         <h3>Tabbed Card V2</h3>
         <p>
-          Diese Karte wird ueber den externen Tabbed Card V2 Editor eingerichtet.
+          Diese Karte wird ueber die Tabbed Card V2 Editor-App eingerichtet.
           Der kleine Home-Assistant-Dialog bleibt bewusst schlank; komplexe Tabs,
           Unterkarten und HACS-Abhaengigkeiten bearbeitest du im separaten Editor.
         </p>
         <div class="links">
-          <a class="primary" href="/tabbed-card-v2">
-            Editor oeffnen
+          <a class="primary" href="https://rockbaer2007.github.io/tabbed-card-v2-editor/" target="_blank" rel="noreferrer">
+            Editor-App oeffnen
           </a>
-          <a href="https://github.com/rockbaer2007/atlas/tree/main/examples/tabbed-card-v2" target="_blank" rel="noreferrer">
-            HACS / Projekt
+          <a href="https://github.com/rockbaer2007/tabbed-card-v2" target="_blank" rel="noreferrer">
+            HACS-Card
           </a>
         </div>
         <p>
-          Installiere die Tabbed Card V2 App ueber HACS, damit der Editor in der Seitenleiste erscheint.
-          Bis dahin kannst du die YAML-Konfiguration ueber
-          "Code-Editor anzeigen" bearbeiten.
+          Installiere nur diese Card ueber HACS. Erstelle die YAML in der Editor-App
+          und fuege sie hier ueber "Code-Editor anzeigen" ein.
         </p>
       </div>
     `;
