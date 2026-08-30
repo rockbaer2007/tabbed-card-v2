@@ -6,6 +6,10 @@
 
 Tabbed Card V2 is a Home Assistant Lovelace card that renders normal Home Assistant cards inside tabs.
 
+## Original project
+
+Tabbed Card V2 is inspired by the original [kinghat/tabbed-card](https://github.com/kinghat/tabbed-card) project. It uses a distinct custom card name (`custom:tabbed-card-v2`) and is developed as a separate implementation with its own editor-app direction. Please also check and credit the original project when comparing features or migration behavior.
+
 ## HACS
 
 Add this repository as a HACS custom repository with category `Dashboard`.
