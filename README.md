@@ -71,6 +71,8 @@ background controls for the tab bar and tabs:
 | `--tabbed-card-v2-indicator-inset` | `0` | Horizontal inset for the active tab indicator. |
 | `--tabbed-card-v2-indicator-border-radius` | `0` | Border radius for the active tab indicator. |
 
+![Tabbed Card V2 style example in Home Assistant](images/tabbed-card-v2-0.1.7.png)
+
 Example:
 
 ```yaml
