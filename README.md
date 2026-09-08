@@ -61,6 +61,11 @@ background controls for the tab bar and tabs:
 | `--tabbed-card-v2-active-background` | `transparent` | Background of the active tab. |
 | `--tabbed-card-v2-inactive-background` | `transparent` | Background of inactive tabs. |
 | `--tabbed-card-v2-hover-background` | `--secondary-background-color` | Background while hovering or focusing a tab. |
+| `--tabbed-card-v2-tab-border-radius-top` | `0` | Top-left and top-right radius for each tab. |
+| `--tabbed-card-v2-tab-border-radius-bottom` | `0` | Bottom-left and bottom-right radius for each tab. |
+| `--tabbed-card-v2-tabs-padding-left` | `0` | Space before the first tab. |
+| `--tabbed-card-v2-tabs-padding-top` | `0` | Space above the tab row. |
+| `--tabbed-card-v2-tabs-gap` | `0` | Space between tabs. |
 
 Example:
 
@@ -73,6 +78,11 @@ styles:
   --tabbed-card-v2-active-background: "rgba(255,152,0,0.22)"
   --tabbed-card-v2-inactive-background: "rgba(255,255,255,0.06)"
   --tabbed-card-v2-hover-background: "rgba(255,255,255,0.12)"
+  --tabbed-card-v2-tab-border-radius-top: "12px"
+  --tabbed-card-v2-tab-border-radius-bottom: "6px"
+  --tabbed-card-v2-tabs-padding-left: "8px"
+  --tabbed-card-v2-tabs-padding-top: "8px"
+  --tabbed-card-v2-tabs-gap: "6px"
 tabs:
   - attributes:
       label: Light

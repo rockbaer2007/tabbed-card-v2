@@ -116,6 +116,11 @@ class TabbedCardV2 extends HTMLElement {
       "--tabbed-card-v2-active-background": "transparent",
       "--tabbed-card-v2-inactive-background": "transparent",
       "--tabbed-card-v2-hover-background": "var(--secondary-background-color)",
+      "--tabbed-card-v2-tab-border-radius-top": "0",
+      "--tabbed-card-v2-tab-border-radius-bottom": "0",
+      "--tabbed-card-v2-tabs-padding-left": "0",
+      "--tabbed-card-v2-tabs-padding-top": "0",
+      "--tabbed-card-v2-tabs-gap": "0",
       "--tabbed-card-v2-font-size": "14px",
       ...mapKnownStyles(this._config.styles),
     };
@@ -159,10 +164,13 @@ class TabbedCardV2 extends HTMLElement {
 
         .tabs {
           display: flex;
+          gap: var(--tabbed-card-v2-tabs-gap);
           overflow-x: auto;
           scrollbar-width: thin;
           border-bottom: 1px solid var(--divider-color);
           background: var(--tabbed-card-v2-tabbar-background);
+          padding-left: var(--tabbed-card-v2-tabs-padding-left);
+          padding-top: var(--tabbed-card-v2-tabs-padding-top);
         }
 
         .tab {
@@ -174,7 +182,11 @@ class TabbedCardV2 extends HTMLElement {
           min-width: 90px;
           min-height: 48px;
           border: 0;
-          border-radius: 0;
+          border-radius:
+            var(--tabbed-card-v2-tab-border-radius-top)
+            var(--tabbed-card-v2-tab-border-radius-top)
+            var(--tabbed-card-v2-tab-border-radius-bottom)
+            var(--tabbed-card-v2-tab-border-radius-bottom);
           background: var(--tabbed-card-v2-inactive-background);
           color: var(--tabbed-card-v2-inactive-color);
           cursor: pointer;
@@ -402,6 +414,11 @@ function mapKnownStyles(styles) {
     ...(styles["--tabbed-card-v2-active-background"] ? { "--tabbed-card-v2-active-background": styles["--tabbed-card-v2-active-background"] } : {}),
     ...(styles["--tabbed-card-v2-inactive-background"] ? { "--tabbed-card-v2-inactive-background": styles["--tabbed-card-v2-inactive-background"] } : {}),
     ...(styles["--tabbed-card-v2-hover-background"] ? { "--tabbed-card-v2-hover-background": styles["--tabbed-card-v2-hover-background"] } : {}),
+    ...(styles["--tabbed-card-v2-tab-border-radius-top"] ? { "--tabbed-card-v2-tab-border-radius-top": styles["--tabbed-card-v2-tab-border-radius-top"] } : {}),
+    ...(styles["--tabbed-card-v2-tab-border-radius-bottom"] ? { "--tabbed-card-v2-tab-border-radius-bottom": styles["--tabbed-card-v2-tab-border-radius-bottom"] } : {}),
+    ...(styles["--tabbed-card-v2-tabs-padding-left"] ? { "--tabbed-card-v2-tabs-padding-left": styles["--tabbed-card-v2-tabs-padding-left"] } : {}),
+    ...(styles["--tabbed-card-v2-tabs-padding-top"] ? { "--tabbed-card-v2-tabs-padding-top": styles["--tabbed-card-v2-tabs-padding-top"] } : {}),
+    ...(styles["--tabbed-card-v2-tabs-gap"] ? { "--tabbed-card-v2-tabs-gap": styles["--tabbed-card-v2-tabs-gap"] } : {}),
   };
 }
 
