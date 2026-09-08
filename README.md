@@ -47,8 +47,6 @@ tabs:
         - sensor.living_room_humidity
 ```
 
-For the full visual editor, use the standalone [Tabbed Card V2 Editor](https://rockbaer2007.github.io/tabbed-card-v2-editor/).
-
 ## Styling
 
 Tabbed Card V2 keeps the original Material tab variables and adds optional
