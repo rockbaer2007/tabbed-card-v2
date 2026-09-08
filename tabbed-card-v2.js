@@ -361,15 +361,11 @@ class TabbedCardV2Editor extends HTMLElement {
       <div class="panel">
         <h3>Tabbed Card V2</h3>
         <p>
-          YAML oder JSON direkt einfügen und übernehmen. Für komplexere
-          Entwürfe kann weiterhin die externe Editor-App genutzt werden.
+          YAML oder JSON direkt einfügen und übernehmen.
         </p>
         <textarea id="config-editor" spellcheck="false"></textarea>
         <div class="actions">
           <button id="apply-config" class="primary" type="button">Code übernehmen</button>
-          <a href="https://rockbaer2007.github.io/tabbed-card-v2-editor/" target="_blank" rel="noreferrer">
-            Editor-App öffnen
-          </a>
           <a href="https://github.com/rockbaer2007/tabbed-card-v2" target="_blank" rel="noreferrer">
             HACS-Card
           </a>
