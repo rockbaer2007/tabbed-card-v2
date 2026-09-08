@@ -123,6 +123,8 @@ class TabbedCardV2 extends HTMLElement {
       "--tabbed-card-v2-tabs-padding-left": "0",
       "--tabbed-card-v2-tabs-padding-top": "0",
       "--tabbed-card-v2-tabs-gap": "0",
+      "--tabbed-card-v2-indicator-inset": "0",
+      "--tabbed-card-v2-indicator-border-radius": "0",
       "--tabbed-card-v2-font-size": "14px",
       ...mapKnownStyles(this._config.styles),
     };
@@ -222,10 +224,11 @@ class TabbedCardV2 extends HTMLElement {
 
         .tab.active::after {
           position: absolute;
-          right: 0;
+          right: var(--tabbed-card-v2-indicator-inset);
           bottom: 0;
-          left: 0;
+          left: var(--tabbed-card-v2-indicator-inset);
           height: 3px;
+          border-radius: var(--tabbed-card-v2-indicator-border-radius);
           background: var(--tabbed-card-v2-active-color);
           content: "";
         }
@@ -430,6 +433,8 @@ function mapKnownStyles(styles) {
     ...(hasStyle("--tabbed-card-v2-tabs-padding-left") ? { "--tabbed-card-v2-tabs-padding-left": styles["--tabbed-card-v2-tabs-padding-left"] } : {}),
     ...(hasStyle("--tabbed-card-v2-tabs-padding-top") ? { "--tabbed-card-v2-tabs-padding-top": styles["--tabbed-card-v2-tabs-padding-top"] } : {}),
     ...(hasStyle("--tabbed-card-v2-tabs-gap") ? { "--tabbed-card-v2-tabs-gap": styles["--tabbed-card-v2-tabs-gap"] } : {}),
+    ...(hasStyle("--tabbed-card-v2-indicator-inset") ? { "--tabbed-card-v2-indicator-inset": styles["--tabbed-card-v2-indicator-inset"] } : {}),
+    ...(hasStyle("--tabbed-card-v2-indicator-border-radius") ? { "--tabbed-card-v2-indicator-border-radius": styles["--tabbed-card-v2-indicator-border-radius"] } : {}),
   };
 }
 
