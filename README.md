@@ -73,6 +73,8 @@ background controls for the tab bar and tabs:
 
 ![Tabbed Card V2 style example in Home Assistant](images/tabbed-card-v2-0.1.7.png)
 
+![Tabbed Card V2 styled tabs result](images/tabbed-card-v2-result-0.1.7.png)
+
 Example:
 
 ```yaml
