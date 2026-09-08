@@ -114,7 +114,9 @@ class TabbedCardV2 extends HTMLElement {
       "--tabbed-card-v2-inactive-color": "var(--secondary-text-color)",
       "--tabbed-card-v2-tabbar-background": "transparent",
       "--tabbed-card-v2-active-background": "transparent",
+      "--tabbed-card-v2-active-background-opacity": "100",
       "--tabbed-card-v2-inactive-background": "transparent",
+      "--tabbed-card-v2-inactive-background-opacity": "100",
       "--tabbed-card-v2-hover-background": "var(--secondary-background-color)",
       "--tabbed-card-v2-tab-border-radius-top": "0",
       "--tabbed-card-v2-tab-border-radius-bottom": "0",
@@ -188,6 +190,11 @@ class TabbedCardV2 extends HTMLElement {
             var(--tabbed-card-v2-tab-border-radius-bottom)
             var(--tabbed-card-v2-tab-border-radius-bottom);
           background: var(--tabbed-card-v2-inactive-background);
+          background: color-mix(
+            in srgb,
+            var(--tabbed-card-v2-inactive-background) calc(var(--tabbed-card-v2-inactive-background-opacity) * 1%),
+            transparent
+          );
           color: var(--tabbed-card-v2-inactive-color);
           cursor: pointer;
           font: inherit;
@@ -205,6 +212,11 @@ class TabbedCardV2 extends HTMLElement {
 
         .tab.active {
           background: var(--tabbed-card-v2-active-background);
+          background: color-mix(
+            in srgb,
+            var(--tabbed-card-v2-active-background) calc(var(--tabbed-card-v2-active-background-opacity) * 1%),
+            transparent
+          );
           color: var(--tabbed-card-v2-active-color);
         }
 
@@ -402,19 +414,22 @@ class TabbedCardV2Editor extends HTMLElement {
 }
 
 function mapKnownStyles(styles) {
+  const hasStyle = (key) => Object.prototype.hasOwnProperty.call(styles, key);
   return {
-    ...(styles["--mdc-theme-primary"] ? { "--tabbed-card-v2-active-color": styles["--mdc-theme-primary"] } : {}),
-    ...(styles["--mdc-tab-text-label-color-default"] ? { "--tabbed-card-v2-inactive-color": styles["--mdc-tab-text-label-color-default"] } : {}),
-    ...(styles["--mdc-typography-button-font-size"] ? { "--tabbed-card-v2-font-size": styles["--mdc-typography-button-font-size"] } : {}),
-    ...(styles["--tabbed-card-v2-tabbar-background"] ? { "--tabbed-card-v2-tabbar-background": styles["--tabbed-card-v2-tabbar-background"] } : {}),
-    ...(styles["--tabbed-card-v2-active-background"] ? { "--tabbed-card-v2-active-background": styles["--tabbed-card-v2-active-background"] } : {}),
-    ...(styles["--tabbed-card-v2-inactive-background"] ? { "--tabbed-card-v2-inactive-background": styles["--tabbed-card-v2-inactive-background"] } : {}),
-    ...(styles["--tabbed-card-v2-hover-background"] ? { "--tabbed-card-v2-hover-background": styles["--tabbed-card-v2-hover-background"] } : {}),
-    ...(styles["--tabbed-card-v2-tab-border-radius-top"] ? { "--tabbed-card-v2-tab-border-radius-top": styles["--tabbed-card-v2-tab-border-radius-top"] } : {}),
-    ...(styles["--tabbed-card-v2-tab-border-radius-bottom"] ? { "--tabbed-card-v2-tab-border-radius-bottom": styles["--tabbed-card-v2-tab-border-radius-bottom"] } : {}),
-    ...(styles["--tabbed-card-v2-tabs-padding-left"] ? { "--tabbed-card-v2-tabs-padding-left": styles["--tabbed-card-v2-tabs-padding-left"] } : {}),
-    ...(styles["--tabbed-card-v2-tabs-padding-top"] ? { "--tabbed-card-v2-tabs-padding-top": styles["--tabbed-card-v2-tabs-padding-top"] } : {}),
-    ...(styles["--tabbed-card-v2-tabs-gap"] ? { "--tabbed-card-v2-tabs-gap": styles["--tabbed-card-v2-tabs-gap"] } : {}),
+    ...(hasStyle("--mdc-theme-primary") ? { "--tabbed-card-v2-active-color": styles["--mdc-theme-primary"] } : {}),
+    ...(hasStyle("--mdc-tab-text-label-color-default") ? { "--tabbed-card-v2-inactive-color": styles["--mdc-tab-text-label-color-default"] } : {}),
+    ...(hasStyle("--mdc-typography-button-font-size") ? { "--tabbed-card-v2-font-size": styles["--mdc-typography-button-font-size"] } : {}),
+    ...(hasStyle("--tabbed-card-v2-tabbar-background") ? { "--tabbed-card-v2-tabbar-background": styles["--tabbed-card-v2-tabbar-background"] } : {}),
+    ...(hasStyle("--tabbed-card-v2-active-background") ? { "--tabbed-card-v2-active-background": styles["--tabbed-card-v2-active-background"] } : {}),
+    ...(hasStyle("--tabbed-card-v2-active-background-opacity") ? { "--tabbed-card-v2-active-background-opacity": styles["--tabbed-card-v2-active-background-opacity"] } : {}),
+    ...(hasStyle("--tabbed-card-v2-inactive-background") ? { "--tabbed-card-v2-inactive-background": styles["--tabbed-card-v2-inactive-background"] } : {}),
+    ...(hasStyle("--tabbed-card-v2-inactive-background-opacity") ? { "--tabbed-card-v2-inactive-background-opacity": styles["--tabbed-card-v2-inactive-background-opacity"] } : {}),
+    ...(hasStyle("--tabbed-card-v2-hover-background") ? { "--tabbed-card-v2-hover-background": styles["--tabbed-card-v2-hover-background"] } : {}),
+    ...(hasStyle("--tabbed-card-v2-tab-border-radius-top") ? { "--tabbed-card-v2-tab-border-radius-top": styles["--tabbed-card-v2-tab-border-radius-top"] } : {}),
+    ...(hasStyle("--tabbed-card-v2-tab-border-radius-bottom") ? { "--tabbed-card-v2-tab-border-radius-bottom": styles["--tabbed-card-v2-tab-border-radius-bottom"] } : {}),
+    ...(hasStyle("--tabbed-card-v2-tabs-padding-left") ? { "--tabbed-card-v2-tabs-padding-left": styles["--tabbed-card-v2-tabs-padding-left"] } : {}),
+    ...(hasStyle("--tabbed-card-v2-tabs-padding-top") ? { "--tabbed-card-v2-tabs-padding-top": styles["--tabbed-card-v2-tabs-padding-top"] } : {}),
+    ...(hasStyle("--tabbed-card-v2-tabs-gap") ? { "--tabbed-card-v2-tabs-gap": styles["--tabbed-card-v2-tabs-gap"] } : {}),
   };
 }
 
