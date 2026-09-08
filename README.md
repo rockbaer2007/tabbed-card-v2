@@ -48,3 +48,37 @@ tabs:
 ```
 
 For the full visual editor, use the standalone [Tabbed Card V2 Editor](https://rockbaer2007.github.io/tabbed-card-v2-editor/).
+
+## Styling
+
+Tabbed Card V2 keeps the original Material tab variables and adds optional
+background controls for the tab bar and tabs:
+
+| Name | Default | Description |
+| --- | --- | --- |
+| `--mdc-theme-primary` | `--primary-color` | Active tab text and indicator color. |
+| `--mdc-tab-text-label-color-default` | `--secondary-text-color` | Inactive tab text color. Use `rgba(...)` when transparency is needed. |
+| `--mdc-typography-button-font-size` | `14px` | Tab label font size. |
+| `--tabbed-card-v2-tabbar-background` | `transparent` | Background behind the tab row. |
+| `--tabbed-card-v2-active-background` | `transparent` | Background of the active tab. |
+| `--tabbed-card-v2-inactive-background` | `transparent` | Background of inactive tabs. |
+| `--tabbed-card-v2-hover-background` | `--secondary-background-color` | Background while hovering or focusing a tab. |
+
+Example:
+
+```yaml
+type: custom:tabbed-card-v2
+styles:
+  --mdc-theme-primary: "#ff9800"
+  --mdc-tab-text-label-color-default: "rgba(255,255,255,0.75)"
+  --tabbed-card-v2-tabbar-background: "rgba(0,0,0,0.18)"
+  --tabbed-card-v2-active-background: "rgba(255,152,0,0.22)"
+  --tabbed-card-v2-inactive-background: "rgba(255,255,255,0.06)"
+  --tabbed-card-v2-hover-background: "rgba(255,255,255,0.12)"
+tabs:
+  - attributes:
+      label: Light
+    card:
+      type: button
+      entity: light.bed_light
+```
