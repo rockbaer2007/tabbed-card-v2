@@ -102,3 +102,10 @@ tabs:
       type: button
       entity: light.bed_light
 ```
+
+## Home Assistant editor
+
+The built-in Home Assistant editor accepts YAML or JSON directly. YAML block
+scalars such as `>-` and `|-` are preserved as multi-line values, so Mushroom
+template chips, Jinja expressions and `card_mod` style blocks can be pasted and
+applied without flattening the template content.

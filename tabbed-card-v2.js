@@ -452,15 +452,23 @@ function parseConfigText(text) {
 function parseSimpleYaml(text) {
   const lines = text
     .replace(/\t/g, "  ")
-    .split(/\r?\n/)
-    .filter((line) => line.trim() && !line.trim().startsWith("#"));
+    .split(/\r?\n/);
   let index = 0;
 
   function countIndent(line) {
     return line.match(/^ */)[0].length;
   }
 
+  function skipIgnorableLines() {
+    while (index < lines.length) {
+      const trimmed = lines[index].trim();
+      if (trimmed && !trimmed.startsWith("#")) break;
+      index += 1;
+    }
+  }
+
   function parseBlock(indent) {
+    skipIgnorableLines();
     if (index >= lines.length) return {};
     return lines[index].slice(indent).trimStart().startsWith("- ")
       ? parseArray(indent)
@@ -470,6 +478,8 @@ function parseSimpleYaml(text) {
   function parseObject(indent) {
     const object = {};
     while (index < lines.length) {
+      skipIgnorableLines();
+      if (index >= lines.length) break;
       const line = lines[index];
       const currentIndent = countIndent(line);
       if (currentIndent < indent) break;
@@ -485,7 +495,9 @@ function parseSimpleYaml(text) {
       const key = content.slice(0, separator).trim();
       const valueText = content.slice(separator + 1).trim();
       index += 1;
-      object[key] = valueText
+      object[key] = isBlockScalarHeader(valueText)
+        ? parseBlockScalar(valueText, indent)
+        : valueText
         ? parseScalar(valueText)
         : parseBlock(nextIndent(indent));
     }
@@ -495,6 +507,8 @@ function parseSimpleYaml(text) {
   function parseArray(indent) {
     const array = [];
     while (index < lines.length) {
+      skipIgnorableLines();
+      if (index >= lines.length) break;
       const line = lines[index];
       const currentIndent = countIndent(line);
       if (currentIndent < indent) break;
@@ -509,7 +523,13 @@ function parseSimpleYaml(text) {
       if (separator > 0 && !content.startsWith('"') && !content.startsWith("'")) {
         const key = content.slice(0, separator).trim();
         const valueText = content.slice(separator + 1).trim();
-        const item = { [key]: valueText ? parseScalar(valueText) : parseBlock(nextIndent(indent)) };
+        const item = {
+          [key]: isBlockScalarHeader(valueText)
+            ? parseBlockScalar(valueText, indent)
+            : valueText
+              ? parseScalar(valueText)
+              : parseBlock(nextIndent(indent)),
+        };
         while (index < lines.length && countIndent(lines[index]) > indent) {
           const nested = parseBlock(nextIndent(indent));
           Object.assign(item, nested);
@@ -522,7 +542,26 @@ function parseSimpleYaml(text) {
     return array;
   }
 
+  function parseBlockScalar(header, parentIndent) {
+    const stripFinalNewline = header.endsWith("-");
+    const scalarLines = [];
+    let blockIndent = undefined;
+    while (index < lines.length) {
+      const line = lines[index];
+      const currentIndent = countIndent(line);
+      if (line.trim() && currentIndent <= parentIndent) break;
+      if (line.trim() && blockIndent === undefined) {
+        blockIndent = currentIndent;
+      }
+      scalarLines.push(blockIndent === undefined ? "" : line.slice(Math.min(blockIndent, line.length)));
+      index += 1;
+    }
+    const value = scalarLines.join("\n");
+    return stripFinalNewline ? value.replace(/\n+$/g, "") : `${value}\n`;
+  }
+
   function nextIndent(indent) {
+    skipIgnorableLines();
     if (index >= lines.length) return indent + 2;
     return Math.max(indent + 2, countIndent(lines[index]));
   }
@@ -553,31 +592,56 @@ function stringifyYaml(value, indent = 0) {
         const entries = Object.entries(item);
         if (entries.length === 0) return `${spaces}- {}`;
         const [firstKey, firstValue] = entries[0];
-        const firstLine = isPlainScalar(firstValue)
+        const firstLine = isMultilineScalar(firstValue)
+          ? `${spaces}- ${firstKey}: |-\n${formatBlockScalar(firstValue, indent + 4)}`
+          : isPlainScalar(firstValue)
           ? `${spaces}- ${firstKey}: ${formatScalar(firstValue)}`
           : `${spaces}- ${firstKey}:\n${stringifyYaml(firstValue, indent + 4)}`;
         const rest = entries.slice(1).map(([key, entryValue]) => (
-          isPlainScalar(entryValue)
+          isMultilineScalar(entryValue)
+            ? `${spaces}  ${key}: |-\n${formatBlockScalar(entryValue, indent + 4)}`
+            : isPlainScalar(entryValue)
             ? `${spaces}  ${key}: ${formatScalar(entryValue)}`
             : `${spaces}  ${key}:\n${stringifyYaml(entryValue, indent + 4)}`
         ));
         return [firstLine, ...rest].join("\n");
       }
-      return `${spaces}- ${formatScalar(item)}`;
+      return isMultilineScalar(item)
+        ? `${spaces}- |-\n${formatBlockScalar(item, indent + 2)}`
+        : `${spaces}- ${formatScalar(item)}`;
     }).join("\n");
   }
   if (value && typeof value === "object") {
     return Object.entries(value).map(([key, entryValue]) => (
-      isPlainScalar(entryValue)
+      isMultilineScalar(entryValue)
+        ? `${spaces}${key}: |-\n${formatBlockScalar(entryValue, indent + 2)}`
+        : isPlainScalar(entryValue)
         ? `${spaces}${key}: ${formatScalar(entryValue)}`
         : `${spaces}${key}:\n${stringifyYaml(entryValue, indent + 2)}`
     )).join("\n");
   }
-  return `${spaces}${formatScalar(value)}`;
+  return isMultilineScalar(value)
+    ? `${spaces}|-\n${formatBlockScalar(value, indent + 2)}`
+    : `${spaces}${formatScalar(value)}`;
 }
 
 function isPlainScalar(value) {
   return value === null || typeof value !== "object";
+}
+
+function isBlockScalarHeader(value) {
+  return /^[>|][+-]?$/.test(value);
+}
+
+function isMultilineScalar(value) {
+  return typeof value === "string" && /[\r\n]/.test(value);
+}
+
+function formatBlockScalar(value, indent) {
+  const spaces = " ".repeat(indent);
+  return String(value).replace(/\r\n/g, "\n").replace(/\n+$/g, "").split("\n")
+    .map((line) => `${spaces}${line}`)
+    .join("\n");
 }
 
 function formatScalar(value) {
