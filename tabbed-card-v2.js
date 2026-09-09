@@ -112,6 +112,9 @@ class TabbedCardV2 extends HTMLElement {
     const styleValues = {
       "--tabbed-card-v2-active-color": "var(--primary-color)",
       "--tabbed-card-v2-inactive-color": "var(--secondary-text-color)",
+      "--tabbed-card-v2-card-background": "var(--ha-card-background, var(--card-background-color))",
+      "--tabbed-card-v2-card-border": "var(--ha-card-border-width, 1px) solid var(--ha-card-border-color, var(--divider-color))",
+      "--tabbed-card-v2-card-border-radius": "var(--ha-card-border-radius, 12px)",
       "--tabbed-card-v2-tabbar-background": "transparent",
       "--tabbed-card-v2-active-background": "transparent",
       "--tabbed-card-v2-active-background-opacity": "100",
@@ -173,6 +176,9 @@ class TabbedCardV2 extends HTMLElement {
 
         ha-card {
           display: block;
+          background: var(--tabbed-card-v2-card-background);
+          border: var(--tabbed-card-v2-card-border);
+          border-radius: var(--tabbed-card-v2-card-border-radius);
           overflow: hidden;
         }
 
@@ -422,6 +428,9 @@ function mapKnownStyles(styles) {
     ...(hasStyle("--mdc-theme-primary") ? { "--tabbed-card-v2-active-color": styles["--mdc-theme-primary"] } : {}),
     ...(hasStyle("--mdc-tab-text-label-color-default") ? { "--tabbed-card-v2-inactive-color": styles["--mdc-tab-text-label-color-default"] } : {}),
     ...(hasStyle("--mdc-typography-button-font-size") ? { "--tabbed-card-v2-font-size": styles["--mdc-typography-button-font-size"] } : {}),
+    ...(hasStyle("--tabbed-card-v2-card-background") ? { "--tabbed-card-v2-card-background": styles["--tabbed-card-v2-card-background"] } : {}),
+    ...(hasStyle("--tabbed-card-v2-card-border") ? { "--tabbed-card-v2-card-border": styles["--tabbed-card-v2-card-border"] } : {}),
+    ...(hasStyle("--tabbed-card-v2-card-border-radius") ? { "--tabbed-card-v2-card-border-radius": styles["--tabbed-card-v2-card-border-radius"] } : {}),
     ...(hasStyle("--tabbed-card-v2-tabbar-background") ? { "--tabbed-card-v2-tabbar-background": styles["--tabbed-card-v2-tabbar-background"] } : {}),
     ...(hasStyle("--tabbed-card-v2-active-background") ? { "--tabbed-card-v2-active-background": styles["--tabbed-card-v2-active-background"] } : {}),
     ...(hasStyle("--tabbed-card-v2-active-background-opacity") ? { "--tabbed-card-v2-active-background-opacity": styles["--tabbed-card-v2-active-background-opacity"] } : {}),
