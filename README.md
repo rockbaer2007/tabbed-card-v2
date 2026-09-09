@@ -109,3 +109,7 @@ The built-in Home Assistant editor accepts YAML or JSON directly. YAML block
 scalars such as `>-` and `|-` are preserved as multi-line values, so Mushroom
 template chips, Jinja expressions and `card_mod` style blocks can be pasted and
 applied without flattening the template content.
+
+Tab background opacity values are rendered as stable color values before the tab
+content is switched. This keeps transparent active and inactive tab backgrounds
+consistent when moving between tabs.

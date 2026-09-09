@@ -115,8 +115,10 @@ class TabbedCardV2 extends HTMLElement {
       "--tabbed-card-v2-tabbar-background": "transparent",
       "--tabbed-card-v2-active-background": "transparent",
       "--tabbed-card-v2-active-background-opacity": "100",
+      "--tabbed-card-v2-active-background-rendered": "transparent",
       "--tabbed-card-v2-inactive-background": "transparent",
       "--tabbed-card-v2-inactive-background-opacity": "100",
+      "--tabbed-card-v2-inactive-background-rendered": "transparent",
       "--tabbed-card-v2-hover-background": "var(--secondary-background-color)",
       "--tabbed-card-v2-tab-border-radius-top": "0",
       "--tabbed-card-v2-tab-border-radius-bottom": "0",
@@ -128,6 +130,14 @@ class TabbedCardV2 extends HTMLElement {
       "--tabbed-card-v2-font-size": "14px",
       ...mapKnownStyles(this._config.styles),
     };
+    styleValues["--tabbed-card-v2-active-background-rendered"] = renderColorWithOpacity(
+      styleValues["--tabbed-card-v2-active-background"],
+      styleValues["--tabbed-card-v2-active-background-opacity"],
+    );
+    styleValues["--tabbed-card-v2-inactive-background-rendered"] = renderColorWithOpacity(
+      styleValues["--tabbed-card-v2-inactive-background"],
+      styleValues["--tabbed-card-v2-inactive-background-opacity"],
+    );
     const tabButtons = this._config.tabs.map((tab, index) => {
       const attributes = tab.attributes ?? {};
       const active = index === this._selectedTabIndex;
@@ -191,12 +201,7 @@ class TabbedCardV2 extends HTMLElement {
             var(--tabbed-card-v2-tab-border-radius-top)
             var(--tabbed-card-v2-tab-border-radius-bottom)
             var(--tabbed-card-v2-tab-border-radius-bottom);
-          background: var(--tabbed-card-v2-inactive-background);
-          background: color-mix(
-            in srgb,
-            var(--tabbed-card-v2-inactive-background) calc(var(--tabbed-card-v2-inactive-background-opacity) * 1%),
-            transparent
-          );
+          background: var(--tabbed-card-v2-inactive-background-rendered);
           color: var(--tabbed-card-v2-inactive-color);
           cursor: pointer;
           font: inherit;
@@ -213,12 +218,7 @@ class TabbedCardV2 extends HTMLElement {
         }
 
         .tab.active {
-          background: var(--tabbed-card-v2-active-background);
-          background: color-mix(
-            in srgb,
-            var(--tabbed-card-v2-active-background) calc(var(--tabbed-card-v2-active-background-opacity) * 1%),
-            transparent
-          );
+          background: var(--tabbed-card-v2-active-background-rendered);
           color: var(--tabbed-card-v2-active-color);
         }
 
@@ -437,6 +437,94 @@ function mapKnownStyles(styles) {
     ...(hasStyle("--tabbed-card-v2-indicator-border-radius") ? { "--tabbed-card-v2-indicator-border-radius": styles["--tabbed-card-v2-indicator-border-radius"] } : {}),
   };
 }
+
+function renderColorWithOpacity(color, opacity) {
+  const value = String(color ?? "transparent").trim();
+  const alpha = clampOpacity(opacity);
+  if (!value || value === "transparent" || alpha <= 0) {
+    return "transparent";
+  }
+  if (alpha >= 1) {
+    return value;
+  }
+
+  const rgb = parseRgbColor(value);
+  if (rgb) {
+    return `rgba(${rgb.r}, ${rgb.g}, ${rgb.b}, ${roundAlpha(alpha)})`;
+  }
+  return `color-mix(in srgb, ${value} ${Math.round(alpha * 100)}%, transparent)`;
+}
+
+function clampOpacity(opacity) {
+  const parsed = Number.parseFloat(String(opacity ?? "100").replace(",", "."));
+  if (!Number.isFinite(parsed)) return 1;
+  return Math.min(100, Math.max(0, parsed)) / 100;
+}
+
+function roundAlpha(alpha) {
+  return Math.round(alpha * 1000) / 1000;
+}
+
+function parseRgbColor(color) {
+  const value = color.trim().toLowerCase();
+  const named = NAMED_COLORS[value];
+  if (named) {
+    return named;
+  }
+
+  const hex = value.match(/^#([0-9a-f]{3}|[0-9a-f]{6})$/i);
+  if (hex) {
+    const raw = hex[1].length === 3
+      ? hex[1].split("").map((part) => part + part).join("")
+      : hex[1];
+    return {
+      r: Number.parseInt(raw.slice(0, 2), 16),
+      g: Number.parseInt(raw.slice(2, 4), 16),
+      b: Number.parseInt(raw.slice(4, 6), 16),
+    };
+  }
+
+  const rgb = value.match(/^rgba?\(([^)]+)\)$/);
+  if (!rgb) {
+    return undefined;
+  }
+  const parts = rgb[1].split(",").map((part) => part.trim());
+  if (parts.length < 3) {
+    return undefined;
+  }
+  const channels = parts.slice(0, 3).map((part) => {
+    if (part.endsWith("%")) {
+      return Math.round((Number.parseFloat(part) / 100) * 255);
+    }
+    return Number.parseFloat(part);
+  });
+  if (channels.some((part) => !Number.isFinite(part))) {
+    return undefined;
+  }
+  return {
+    r: Math.min(255, Math.max(0, Math.round(channels[0]))),
+    g: Math.min(255, Math.max(0, Math.round(channels[1]))),
+    b: Math.min(255, Math.max(0, Math.round(channels[2]))),
+  };
+}
+
+const NAMED_COLORS = {
+  black: { r: 0, g: 0, b: 0 },
+  blue: { r: 0, g: 0, b: 255 },
+  cyan: { r: 0, g: 255, b: 255 },
+  gray: { r: 128, g: 128, b: 128 },
+  green: { r: 0, g: 128, b: 0 },
+  grey: { r: 128, g: 128, b: 128 },
+  lightblue: { r: 173, g: 216, b: 230 },
+  lime: { r: 0, g: 255, b: 0 },
+  magenta: { r: 255, g: 0, b: 255 },
+  orange: { r: 255, g: 165, b: 0 },
+  purple: { r: 128, g: 0, b: 128 },
+  red: { r: 255, g: 0, b: 0 },
+  teal: { r: 0, g: 128, b: 128 },
+  white: { r: 255, g: 255, b: 255 },
+  yellow: { r: 255, g: 255, b: 0 },
+};
 
 function parseConfigText(text) {
   const trimmed = String(text ?? "").trim();
