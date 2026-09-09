@@ -60,6 +60,8 @@ background controls for the tab bar and tabs:
 | `--tabbed-card-v2-card-background` | Home Assistant card background | Background of the outer card. Use `transparent` for a glass/overlay layout. |
 | `--tabbed-card-v2-card-border` | Home Assistant card border | Border of the outer card. |
 | `--tabbed-card-v2-card-border-radius` | Home Assistant card radius | Border radius of the outer card. |
+| `--tabbed-card-v2-content-padding-side` | `0` | Equal left and right spacing inside the card content area. |
+| `--tabbed-card-v2-content-padding-bottom` | `0` | Bottom spacing inside the card content area. |
 | `--tabbed-card-v2-tabbar-background` | `transparent` | Background behind the tab row. |
 | `--tabbed-card-v2-active-background` | `transparent` | Background of the active tab. |
 | `--tabbed-card-v2-active-background-opacity` | `100` | Active tab background opacity from `0` to `100`. |
@@ -88,6 +90,8 @@ styles:
   --tabbed-card-v2-card-background: "transparent"
   --tabbed-card-v2-card-border: "0.2px solid var(--primary-color)"
   --tabbed-card-v2-card-border-radius: "12px"
+  --tabbed-card-v2-content-padding-side: "16px"
+  --tabbed-card-v2-content-padding-bottom: "16px"
   --tabbed-card-v2-tabbar-background: "rgba(0,0,0,0.18)"
   --tabbed-card-v2-active-background: "#ff9800"
   --tabbed-card-v2-active-background-opacity: 35

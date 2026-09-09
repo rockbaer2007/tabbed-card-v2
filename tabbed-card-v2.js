@@ -115,6 +115,8 @@ class TabbedCardV2 extends HTMLElement {
       "--tabbed-card-v2-card-background": "var(--ha-card-background, var(--card-background-color))",
       "--tabbed-card-v2-card-border": "var(--ha-card-border-width, 1px) solid var(--ha-card-border-color, var(--divider-color))",
       "--tabbed-card-v2-card-border-radius": "var(--ha-card-border-radius, 12px)",
+      "--tabbed-card-v2-content-padding-side": "0",
+      "--tabbed-card-v2-content-padding-bottom": "0",
       "--tabbed-card-v2-tabbar-background": "transparent",
       "--tabbed-card-v2-active-background": "transparent",
       "--tabbed-card-v2-active-background-opacity": "100",
@@ -261,6 +263,9 @@ class TabbedCardV2 extends HTMLElement {
 
         .content {
           display: block;
+          padding-right: var(--tabbed-card-v2-content-padding-side);
+          padding-bottom: var(--tabbed-card-v2-content-padding-bottom);
+          padding-left: var(--tabbed-card-v2-content-padding-side);
         }
       </style>
       <ha-card>
@@ -431,6 +436,8 @@ function mapKnownStyles(styles) {
     ...(hasStyle("--tabbed-card-v2-card-background") ? { "--tabbed-card-v2-card-background": styles["--tabbed-card-v2-card-background"] } : {}),
     ...(hasStyle("--tabbed-card-v2-card-border") ? { "--tabbed-card-v2-card-border": styles["--tabbed-card-v2-card-border"] } : {}),
     ...(hasStyle("--tabbed-card-v2-card-border-radius") ? { "--tabbed-card-v2-card-border-radius": styles["--tabbed-card-v2-card-border-radius"] } : {}),
+    ...(hasStyle("--tabbed-card-v2-content-padding-side") ? { "--tabbed-card-v2-content-padding-side": styles["--tabbed-card-v2-content-padding-side"] } : {}),
+    ...(hasStyle("--tabbed-card-v2-content-padding-bottom") ? { "--tabbed-card-v2-content-padding-bottom": styles["--tabbed-card-v2-content-padding-bottom"] } : {}),
     ...(hasStyle("--tabbed-card-v2-tabbar-background") ? { "--tabbed-card-v2-tabbar-background": styles["--tabbed-card-v2-tabbar-background"] } : {}),
     ...(hasStyle("--tabbed-card-v2-active-background") ? { "--tabbed-card-v2-active-background": styles["--tabbed-card-v2-active-background"] } : {}),
     ...(hasStyle("--tabbed-card-v2-active-background-opacity") ? { "--tabbed-card-v2-active-background-opacity": styles["--tabbed-card-v2-active-background-opacity"] } : {}),
