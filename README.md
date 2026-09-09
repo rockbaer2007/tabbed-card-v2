@@ -126,3 +126,5 @@ consistent when moving between tabs.
 
 The card root and active tab content use the full available width in Home
 Assistant previews and dashboards, including the widened card editor dialog.
+When `grid_options.columns: full` is set, Tabbed Card V2 also reports full-width
+grid sizing to Home Assistant through its custom-card grid options.

@@ -79,6 +79,15 @@ class TabbedCardV2 extends HTMLElement {
     return 3;
   }
 
+  getGridOptions() {
+    const gridOptions = this._config?.grid_options ?? {};
+    const columns = gridOptions.columns ?? this._config?.columns ?? "full";
+    return {
+      columns: columns === "full" ? "full" : clampNumber(columns, 12, 1, 12),
+      min_columns: 3,
+    };
+  }
+
   async _buildCards() {
     this._helpers = this._helpers ?? await this._loadCardHelpers();
     this._cards = await Promise.all(
@@ -174,6 +183,12 @@ class TabbedCardV2 extends HTMLElement {
         :host {
           display: block;
           width: 100%;
+          min-width: 100%;
+          max-width: 100%;
+          inline-size: 100%;
+          flex: 1 1 100%;
+          justify-self: stretch;
+          align-self: stretch;
           box-sizing: border-box;
           ${Object.entries(styleValues).map(([key, value]) => `${key}: ${value};`).join("\n")}
         }
@@ -771,6 +786,12 @@ function formatScalar(value) {
 
 function clampIndex(value, length) {
   return Math.max(0, Math.min(Number(value) || 0, Math.max(0, length - 1)));
+}
+
+function clampNumber(value, fallback, min, max) {
+  const numericValue = Number(value);
+  if (!Number.isFinite(numericValue)) return fallback;
+  return Math.max(min, Math.min(Math.floor(numericValue), max));
 }
 
 function escapeHtml(value) {
