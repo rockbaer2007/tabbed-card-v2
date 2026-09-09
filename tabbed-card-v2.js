@@ -173,11 +173,15 @@ class TabbedCardV2 extends HTMLElement {
       <style>
         :host {
           display: block;
+          width: 100%;
+          box-sizing: border-box;
           ${Object.entries(styleValues).map(([key, value]) => `${key}: ${value};`).join("\n")}
         }
 
         ha-card {
           display: block;
+          width: 100%;
+          box-sizing: border-box;
           background: var(--tabbed-card-v2-card-background);
           border: var(--tabbed-card-v2-card-border);
           border-radius: var(--tabbed-card-v2-card-border-radius);
@@ -263,9 +267,17 @@ class TabbedCardV2 extends HTMLElement {
 
         .content {
           display: block;
+          width: 100%;
+          box-sizing: border-box;
           padding-right: var(--tabbed-card-v2-content-padding-side);
           padding-bottom: var(--tabbed-card-v2-content-padding-bottom);
           padding-left: var(--tabbed-card-v2-content-padding-side);
+        }
+
+        .content > * {
+          width: 100%;
+          max-width: 100%;
+          box-sizing: border-box;
         }
       </style>
       <ha-card>

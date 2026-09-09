@@ -123,3 +123,6 @@ applied without flattening the template content.
 Tab background opacity values are rendered as stable color values before the tab
 content is switched. This keeps transparent active and inactive tab backgrounds
 consistent when moving between tabs.
+
+The card root and active tab content use the full available width in Home
+Assistant previews and dashboards, including the widened card editor dialog.
